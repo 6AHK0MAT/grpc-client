@@ -1,0 +1,18 @@
+<h1>Данные в ражиме рального времени</h1>
+<h2>Используемые технологии Angular 11, gRPC, .net, MSSql</h2>
+<!--Enter your name: <input type="text" [(ngModel)]="name">-->
+<!--<button (click) = "onSend()">Send</button>-->
+
+<button (click) = "onUpdate()">Обновить значение</button>
+
+<!--<h4>{{ this.response }}</h4>-->
+
+<div style="width: 800px; height: 400px">
+  <canvas
+    baseChart
+    [chartType]="'line'"
+    [datasets]="datasets"
+    [options]="options"
+  >
+  </canvas>
+</div>

@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcService";
+
+import "google/protobuf/timestamp.proto";
+
+package greet;
+
+service Movies {
+  rpc Ping (EmptyRequest) returns (PingResponse);
+  rpc Echo (EchoRequest) returns (EchoResponse);
+
+  rpc Insert (InsertRequest) returns (InsertResponse);
+  rpc Update (EmptyRequest) returns (InsertResponse);
+  rpc Get (GetRequest) returns (GetResponse);
+  rpc GetWithError (GetRequest) returns (GetResponse);
+  rpc GetList (EmptyRequest) returns (GetListResponse);
+  rpc GetEmpty (EmptyRequest) returns (GetListResponse);
+  rpc RaiseException (EmptyRequest) returns (RaiseExceptionResponse);
+  rpc RaiseRpcException (EmptyRequest) returns (RaiseExceptionResponse);
+
+  rpc GetWeatherStream (EmptyRequest) returns (stream WeatherData);
+  rpc GetWeatherStream_New (EmptyRequest) returns (stream WeatherData_New);
+}
+
+message EmptyRequest {
+}
+
+message EmptyResponse {
+}
+
+message WeatherData_New {
+  google.protobuf.Timestamp DateTimeStamp_New = 1;
+  int32 TemperatureC_New = 2;
+}
+
+message Error {
+  string error_text = 1;
+}
+
+message MovieInfo {
+  string name = 1;
+  int32 NameVal = 2;
+  string description = 3;
+  bool is_foreign = 4;
+  int32 year = 5;
+}
+
+message PingResponse {
+  string response = 1;
+}
+
+message EchoRequest {
+  string value = 1;
+}
+
+message EchoResponse {
+  string response = 1;
+}
+
+message InsertRequest {
+    MovieInfo movie = 1;
+}
+
+message InsertResponse {
+  message InsertResponseData {
+    bool success = 1;
+    int32 id = 2;
+  }
+  
+  oneof result {
+    InsertResponseData data = 1;
+    Error error = 2;
+  }
+}
+
+message GetRequest {
+  int32 id = 1;
+}
+
+message GetResponse {
+  message GetResponseData {
+    bool success = 1;
+    MovieInfo movie = 2;
+  }
+
+  oneof result {
+    GetResponseData data = 1;
+    Error error = 2;
+  }
+}
+
+message GetListResponse {
+  message GetListResponseData {
+    bool success = 1;
+    repeated MovieInfo movies = 2;
+  }
+
+  oneof result {
+    GetListResponseData data = 1;
+    Error error = 2;
+  }
+}
+
+message RaiseExceptionResponse {
+  int32 id = 1;
+}
+
+message WeatherData {
+  google.protobuf.Timestamp dateTimeStamp = 1;
+  int32 temperatureC = 2;
+}
